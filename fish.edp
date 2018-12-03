@@ -1,0 +1,17 @@
+
+
+mesh Th("fish.msh");
+plot(Th,wait=1);
+
+func f=1.;
+
+macro grad(u) [dx(u),dy(u)]//
+
+fespace Vh(Th,P1);
+
+
+Vh u,v; 
+
+solve Poisson(u,v) = int2d(Th)(grad(u)'*grad(v))- int2d(Th)(f*v)
++ on(2,u=2);
+plot(u,wait=1);

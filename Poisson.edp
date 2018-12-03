@@ -1,0 +1,25 @@
+int nn =10;
+
+mesh Th=square(nn,nn,flags=0);
+plot(Th,wait=1);
+
+func f=1.;
+func g = 0; 
+macro grad(u) [dx(u),dy(u)]//
+
+fespace Vh(Th,P1);
+
+for(int i=nn;i<2*nn; ++i)
+{
+	Vh u=0; 
+	u[][i]=1; 
+	plot(u,wait=1);
+}
+
+Vh u,v; 
+
+solve Poisson(u,v) = int2d(Th)(grad(u)'*grad(v))- int2d(Th)(f*v)
++ on(1,2,3,4,u=g);
+plot(u,wait=1);
+
+savemesh(Th,"Th.msh");
